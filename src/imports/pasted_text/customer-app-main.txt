@@ -1,0 +1,327 @@
+Build a complete static Flutter mobile app called 
+"WorkSetu - Customer App" — a location-based service 
+booking platform. This is the CUSTOMER side only.
+
+==============================================
+TECH & GENERAL RULES
+==============================================
+
+- Framework: Flutter (Dart)
+- All data is hardcoded — NO backend, NO API calls, NO Firebase
+- Use Google Fonts — Poppins for all text
+- Use only these packages: google_fonts, smooth_page_indicator
+- All navigation must work using Flutter Navigator named routes
+- Every screen must be a separate Dart file
+- App must run on both Android and iOS
+
+==============================================
+COLOR THEME
+==============================================
+
+Primary Blue: #1A73E8
+Accent Orange: #FF6B00
+Background: #F7F8FA
+Card White: #FFFFFF
+Success Green: #34A853
+Error Red: #EA4335
+Warning Orange: #FBBC04
+Text Dark: #1A1A2E
+Text Grey: #6B7280
+Divider: #E5E7EB
+
+Typography:
+- Heading: Poppins SemiBold 20px
+- Subheading: Poppins Medium 16px
+- Body: Poppins Regular 14px
+- Caption: Poppins Regular 12px
+
+Card style: rounded corners 16px, white background,
+subtle shadow (blurRadius: 8, color: black12)
+
+==============================================
+ADDITIONAL UI RULES
+==============================================
+
+- All buttons: height 52px, borderRadius 12px
+- All input fields: borderRadius 12px, filled style grey background
+- All cards: borderRadius 16px, elevation 2
+- Status chips: small, rounded, color-coded
+- AppBar: white background, dark text, back arrow on sub-screens
+- Bottom nav: white background, Primary Blue active color
+- Empty states: centered icon + message
+- Loading states: CircularProgressIndicator in Primary Blue
+- All snackbars: rounded corners, appropriate color
+- Consistent 16px horizontal padding on all screens
+- Consistent 12px vertical spacing between elements
+
+==============================================
+APP ENTRY POINT
+==============================================
+
+File: main.dart
+Show a full screen with WorkSetu logo centered (use a
+Text widget styled as logo if no asset), tagline
+"Connecting Work with Trust" in grey below it.
+One large rounded button:
+"I am a Customer" — Primary Blue, navigates to Splash
+
+==============================================
+CUSTOMER APP — 12 SCREENS
+==============================================
+
+--- SCREEN 1: Splash ---
+File: screens/customer_splash.dart
+- WorkSetu logo centered
+- Tagline: "Connecting Work with Trust"
+- After 2 seconds auto-navigate to Login screen
+- Background: Primary Blue gradient to dark blue
+
+--- SCREEN 2: Login / Register ---
+File: screens/customer_login.dart
+- Title: "Welcome Back"
+- Subtitle: "Login to book services near you"
+- Mobile number input field (styled, rounded border)
+- "Send OTP" button (Primary Blue, full width)
+- On tap: show OTP input field with 4 boxes
+- Hardcode correct OTP as: 1234
+- On correct OTP: navigate to Home screen
+- On wrong OTP: show red snackbar "Incorrect OTP, try again"
+- Below: "New here? Register" text link (same screen, same flow)
+
+--- SCREEN 3: Home / Services ---
+File: screens/customer_home.dart
+- Top bar: "Hello, Rahul 👋" left, notification bell icon right
+- Location chip below: 📍 Model Town, Ludhiana
+- Search bar: "Search for services..."
+- Section: "Our Services" with a 2-column grid of service cards
+- Service cards (6 total):
+  1. 🧹 Home Cleaning — From ₹299
+  2. 🚗 Car Wash — From ₹199
+  3. 🔧 Plumbing — From ₹349
+  4. ❄️ AC Repair — From ₹499
+  5. 🛋️ Sofa Cleaning — From ₹399
+  6. ⚡ Electrician — From ₹249
+- Each card: icon at top, name, price, rounded card style
+- Tap any card navigates to Service Detail screen
+- Bottom navigation bar with 4 tabs:
+  Home (active), Bookings, Notifications, Profile
+
+--- SCREEN 4: Service Detail ---
+File: screens/service_detail.dart
+- Back arrow header with service name as title
+- Hero section: colored placeholder container
+- Service name large heading
+- Price range: ₹299 - ₹599
+- Rating: ⭐ 4.8 (238 reviews)
+- Section: "What's Included"
+  List of 4 items with green checkmarks:
+  ✓ Professional equipment provided
+  ✓ Trained & verified worker
+  ✓ 2 hour service window
+  ✓ Post-service cleanup
+- Section: "How it works" — 3 steps horizontally:
+  1. Book → 2. Worker Arrives → 3. Pay After
+- Large "Book Now" button at bottom (Primary Blue, full width)
+- Navigates to Address Selection screen
+
+--- SCREEN 5: Address Selection ---
+File: screens/address_selection.dart
+- Title: "Where do you need the service?"
+- Static map placeholder: blue-grey rounded container
+  with a pin icon in center, height 200px
+- "Saved Addresses" section with 3 selectable address cards:
+  1. 🏠 Home — 42 Green Avenue, Model Town, Ludhiana
+  2. 🏢 Office — 15 Industrial Area, Phase 2, Ludhiana
+  3. ➕ Add New Address (outlined card, navigates nowhere)
+- Selected address shows blue border highlight
+- "Confirm Address" button at bottom (Primary Blue, full width)
+- Navigates to Booking & Tracking screen
+
+--- SCREEN 6: Booking & Tracking ---
+File: screens/booking_tracking.dart
+- This screen has 4 states managed by a local integer variable
+  (currentState = 0 to 3)
+- A small "Next State (Demo)" text button at bottom
+  for demo navigation between states
+
+State 0 — Searching:
+- Title: "Finding workers near you..."
+- Animated circular progress indicator (Primary Blue)
+- Text: "Sending request to nearby workers"
+- Subtext: "Usually takes 1-2 minutes"
+- Cancel button (outlined red)
+
+State 1 — Worker Accepted:
+- Green banner: "Worker Found! ✓"
+- Worker card:
+  Avatar placeholder circle, Name: "Suresh Kumar",
+  Rating: ⭐ 4.9, Experience: "3 years",
+  Service: "Home Cleaning"
+- Info row: 📍 2.3 km away | ⏱ ~20 min arrival
+- Static map placeholder showing route
+- "Call Worker" button (outlined)
+
+State 2 — Worker On The Way:
+- Progress stepper (vertical):
+  ✓ Booking Confirmed (green)
+  ✓ Worker Assigned (green)
+  🔵 On the Way (active, animated dot)
+  ○ Arrived
+  ○ Work Started
+  ○ Completed
+- Worker info card same as State 1
+- ETA chip: "Arriving in ~15 min"
+
+State 3 — Work Completed:
+- Large green checkmark icon
+- "Service Completed!" heading
+- Summary: Service name, worker name, duration: 1h 45m
+- "Proceed to Payment" button (Primary Blue)
+- Navigates to Payment & Invoice screen
+
+--- SCREEN 7: Payment & Invoice ---
+File: screens/payment_invoice.dart
+- Title: "Payment Summary"
+- Invoice card (white, rounded, shadow):
+  Service: Home Cleaning
+  Worker: Suresh Kumar
+  Date: Today
+  Duration: 1h 45min
+  ─────────────────
+  Base Price:        ₹499
+  Platform Fee:       ₹49
+  ─────────────────
+  Total:             ₹548
+- Payment method section:
+  Two selectable cards:
+  1. 📱 Pay via UPI (shows UPI icon)
+  2. 💵 Pay Cash to Worker
+- "Confirm Payment" button (Primary Blue, full width)
+- On tap: show success bottom sheet:
+  Green checkmark icon,
+  "Payment Successful!", amount shown,
+  "Rate your experience" button navigates to Review screen
+
+--- SCREEN 8: Review & Dispute ---
+File: screens/review_dispute.dart
+- Two tabs at top: "Rate Service" | "Raise Issue"
+
+Tab 1 — Rate Service:
+- Worker avatar + name "Suresh Kumar"
+- "How was your experience?"
+- 5 interactive star rating widget (tap to select)
+- Text area: "Write a review (optional)"
+- Quick tags row (tapable chips):
+  Professional, On Time, Clean Work, Friendly
+- "Submit Review" button (Primary Blue)
+- On submit: show snackbar "Review submitted! Thank you"
+
+Tab 2 — Raise Issue:
+- Dropdown: Issue Type
+  Options: Worker didn't arrive, Poor quality work,
+  Overcharged, Rude behavior, Other
+- Text area: "Describe your issue"
+- "Attach Photo" button (outlined, non-functional UI only)
+- "Submit Issue" button (Error Red)
+- On submit: show snackbar
+  "Issue raised. Admin will respond within 24 hours."
+
+--- SCREEN 9: Booking History ---
+File: screens/booking_history.dart
+- Title: "My Bookings"
+- Filter chips: All | Active | Completed | Cancelled
+- List of 5 booking cards:
+  1. Home Cleaning | 3 May 2025 | Completed | ₹548 (green chip)
+  2. Car Wash | 28 Apr 2025 | Completed | ₹249 (green chip)
+  3. AC Repair | 20 Apr 2025 | Cancelled | ₹0 (red chip)
+  4. Plumbing | 10 Apr 2025 | Completed | ₹399 (green chip)
+  5. Electrician | 2 Apr 2025 | Disputed | ₹299 (orange chip)
+- Each card: service icon, name, date, status chip, amount
+- Tap any card: no navigation (static)
+
+--- SCREEN 10: Notifications Center ---
+File: screens/notifications.dart
+- Title: "Notifications"
+- List of 8 notification items:
+  1. ✅ Booking Confirmed — Home Cleaning booked | 2 min ago
+  2. 👷 Worker Assigned — Suresh Kumar accepted | 5 min ago
+  3. 📍 Worker Arrived — Suresh has arrived | 1 hr ago
+  4. ✓ Service Complete — Your service is done | 2 hr ago
+  5. 💰 Payment Received — ₹548 paid | 2 hr ago
+  6. ⭐ Rate your experience | Yesterday
+  7. 🎉 New service added: Sofa Cleaning | 2 days ago
+  8. 🔔 Book again and get 10% off | 3 days ago
+
+--- SCREEN 11: AI Help / Support ---
+File: screens/help_support.dart
+- Title: "Help & Support"
+- Chat UI style screen
+- Static hardcoded chat messages:
+  Bot: "Hi Rahul! 👋 How can I help you today?"
+  User: "Where is my worker?"
+  Bot: "Your worker Suresh Kumar is on the way.
+        ETA is approximately 15 minutes."
+  User: "How do I cancel a booking?"
+  Bot: "You can cancel before worker acceptance for free.
+        After acceptance a cancellation fee may apply."
+- Below chat: 3 quick reply chips:
+  "Track Booking" | "Raise Issue" | "Talk to Agent"
+- Message input bar at bottom (UI only, non-functional)
+- Send button (Primary Blue)
+
+--- SCREEN 12: Profile & Settings ---
+File: screens/profile_settings.dart
+- Top section: circular avatar placeholder,
+  Name: "Rahul Sharma", Phone: "+91 98765 43210"
+- Stats row: 5 Bookings | ⭐ 4.8 Rating | Member since 2025
+- Settings list tiles:
+  👤 Edit Profile
+  📍 Saved Addresses
+  💳 Payment Methods
+  🔔 Notification Preferences
+  ❓ Help & Support (navigates to Help screen)
+  📋 Terms & Privacy
+  🚪 Logout (confirmation dialog, on confirm go to entry screen)
+
+==============================================
+NAVIGATION STRUCTURE
+==============================================
+
+main.dart → customer_splash.dart → customer_login.dart
+→ customer_home.dart (bottom nav root)
+
+Bottom Nav:
+Tab 1 Home → customer_home.dart
+Tab 2 Bookings → booking_history.dart
+Tab 3 Notifications → notifications.dart
+Tab 4 Profile → profile_settings.dart
+
+Booking Flow:
+customer_home → service_detail → address_selection
+→ booking_tracking → payment_invoice → review_dispute
+
+==============================================
+FILE STRUCTURE
+==============================================
+
+lib/
+  main.dart
+  theme/
+    app_theme.dart (all colors and text styles)
+  screens/
+    customer_splash.dart
+    customer_login.dart
+    customer_home.dart
+    service_detail.dart
+    address_selection.dart
+    booking_tracking.dart
+    payment_invoice.dart
+    review_dispute.dart
+    booking_history.dart
+    notifications.dart
+    help_support.dart
+    profile_settings.dart
+
+Generate the complete working Flutter app with all 12 screens
+fully connected. Every screen must be navigable. No errors.
+No missing imports. All files complete.
